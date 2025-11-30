@@ -1,0 +1,5 @@
+_target_: net.cnn.DeconvBlock
+in_channels: 32
+out_channels: ${.in_channels}
+kernel_size: 2
+stride: 2

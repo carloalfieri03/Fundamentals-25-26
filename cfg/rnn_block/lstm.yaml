@@ -1,0 +1,9 @@
+_target_: net.lstm.LSTMBlock 
+
+input_size: 32
+hidden_size: 128
+
+num_layers: 2
+dropout: 0.1
+
+bidirectional: False

@@ -1,0 +1,5 @@
+_target_: net.cnn.ConvBlock
+in_channels: 32
+out_channels: ${.in_channels}
+kernel_size: 3
+pool_size: 2

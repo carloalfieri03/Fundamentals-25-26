@@ -1,0 +1,26 @@
+defaults:
+  - _self_ # indica che questo file è la configurazione principale e quindi che nel caso di conflitti le impostazioni qui definite hanno la precedenza
+  - net: default # vai a cercare un file chiamato default.yaml nella cartella cfg/net
+
+seed: 42
+
+net:
+  depth: 3
+  width: 64
+  num_classes: 6
+
+trainer:
+  max_epochs: 100
+  log_every_n_steps: 10
+
+dataset:
+  data_dir: "./data"
+  batch_size: 128
+  val_split: 0.2
+  num_workers: 4
+
+wandb :
+  project: "FDS_PROJECT"
+  entity: "catairu-sapienza-universit-di-roma"
+  name: "experiment_1"
+

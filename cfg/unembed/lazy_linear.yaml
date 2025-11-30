@@ -1,0 +1,2 @@
+_target_: torch.nn.LazyLinear
+out_features: 6
