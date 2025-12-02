@@ -4,4 +4,5 @@ defaults:
  - /unembed: lazy_linear
  - /optimizer: adam
  - /rnn_block: lstm
+ - /decoder: deconv
 

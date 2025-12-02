@@ -13,3 +13,42 @@ class ConvBlock(nn.Module):
         x = self.pool(x)
         return x
 
+
+class DeconvBlock1D(nn.Module):
+    """
+    Deconvolution block for 1D signals:
+    ConvTranspose1d → (BatchNorm1d optional) → ReLU
+    """
+
+    def __init__(
+        self,
+        in_channels,
+        out_channels,
+        kernel_size=3,
+        stride=2,
+        padding=1,
+        output_padding=1,
+        use_batchnorm=True,
+    ):
+        super().__init__()
+
+        layers = [
+            nn.ConvTranspose1d(
+                in_channels=in_channels,
+                out_channels=out_channels,
+                kernel_size=kernel_size,
+                stride=stride,
+                padding=padding,
+                output_padding=output_padding,
+            )
+        ]
+
+        if use_batchnorm:
+            layers.append(nn.BatchNorm1d(out_channels))
+
+        layers.append(nn.ReLU(inplace=True))
+
+        self.net = nn.Sequential(*layers)
+
+    def forward(self, x):
+        return self.net(x)
