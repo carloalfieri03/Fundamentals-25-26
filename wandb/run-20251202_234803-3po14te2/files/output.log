@@ -1,0 +1,105 @@
+
+  | Name    | Type           | Params | Mode
+---------------------------------------------------
+0 | encoder | EncoderWrapper | 26.5 K | train
+1 | decoder | DecoderWrapper | 26.7 K | train
+---------------------------------------------------
+53.2 K    Trainable params
+0         Non-trainable params
+53.2 K    Total params
+0.213     Total estimated model params size (MB)
+26        Modules in train mode
+0         Modules in eval mode
+Epoch 17: 100%|█| 184/184 [00:01<00:00, 123.25it/s, v_num=4te2, train_loss=0.0133, val_loss
+/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/utils/data/dataloader.py:692: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, device pinned memory won't be used.
+  warnings.warn(warn_msg)
+                                                                                           
+Error executing job with overrides: []
+Traceback (most recent call last):
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/src/experiment.py", line 91, in <module>
+    main()
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+    raise ex
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+           ^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+            ^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/hydra.py", line 132, in run
+    _ = ret.return_value
+        ^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/core/utils.py", line 260, in return_value
+    raise self._return_value
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/src/experiment.py", line 47, in main
+    lstm_model = LSTMClassifier(cfg.net, pretrained_encoder)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/src/net/base.py", line 50, in __init__
+    self.lstm = instantiate(cfg.rnn_block)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/instantiate/_instantiate2.py", line 220, in instantiate
+    OmegaConf.resolve(config)
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/omegaconf.py", line 785, in resolve
+    omegaconf._impl._resolve(cfg)
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/_impl.py", line 40, in _resolve
+    _resolve_container_value(cfg, k)
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/_impl.py", line 14, in _resolve_container_value
+    resolved = node._dereference_node()
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/base.py", line 246, in _dereference_node
+    node = self._dereference_node_impl(throw_on_resolution_failure=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/base.py", line 277, in _dereference_node_impl
+    return parent._resolve_interpolation_from_parse_tree(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/base.py", line 584, in _resolve_interpolation_from_parse_tree
+    resolved = self.resolve_parse_tree(
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/base.py", line 764, in resolve_parse_tree
+    return visitor.visit(parse_tree)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/antlr4/tree/Tree.py", line 34, in visit
+    return tree.accept(self)
+           ^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/grammar/gen/OmegaConfGrammarParser.py", line 206, in accept
+    return visitor.visitConfigValue(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/grammar_visitor.py", line 101, in visitConfigValue
+    return self.visit(ctx.getChild(0))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/antlr4/tree/Tree.py", line 34, in visit
+    return tree.accept(self)
+           ^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/grammar/gen/OmegaConfGrammarParser.py", line 342, in accept
+    return visitor.visitText(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/grammar_visitor.py", line 298, in visitText
+    return self.visitInterpolation(c)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/grammar_visitor.py", line 125, in visitInterpolation
+    return self.visit(ctx.getChild(0))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/antlr4/tree/Tree.py", line 34, in visit
+    return tree.accept(self)
+           ^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/grammar/gen/OmegaConfGrammarParser.py", line 921, in accept
+    return visitor.visitInterpolationNode(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/grammar_visitor.py", line 158, in visitInterpolationNode
+    return self.node_interpolation_callback(inter_key, self.memo)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/base.py", line 745, in node_interpolation_callback
+    return self._resolve_node_interpolation(inter_key=inter_key, memo=memo)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/omegaconf/base.py", line 676, in _resolve_node_interpolation
+    raise InterpolationKeyError(f"Interpolation key '{inter_key}' not found")
+omegaconf.errors.InterpolationKeyError: Interpolation key 'net.width' not found

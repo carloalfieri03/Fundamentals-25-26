@@ -1,9 +1,13 @@
 _target_: net.rnn.LSTMBlock 
 
-input_size: ${net.width}
-hidden_size: 128
+input_size: 256
+#hidden_size: 128
+#
+#num_layers: 2
+#dropout: 0.1
 
-num_layers: 2
-dropout: 0.1
-
-bidirectional: False
+#bidirectional: False
+hidden_size: 128   # 128 is the Gold Standard for HAR
+num_layers: 2      # Deep enough for patterns, shallow enough to converge
+dropout: 0.3      
+bidirectional: True

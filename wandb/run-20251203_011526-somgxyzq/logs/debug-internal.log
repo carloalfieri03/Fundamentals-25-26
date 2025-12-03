@@ -1,0 +1,21 @@
+{"time":"2025-12-03T01:15:26.957876+01:00","level":"INFO","msg":"stream: starting","core version":"0.23.0"}
+{"time":"2025-12-03T01:15:27.368645+01:00","level":"INFO","msg":"stream: created new stream","id":"somgxyzq"}
+{"time":"2025-12-03T01:15:27.368702+01:00","level":"INFO","msg":"handler: started","stream_id":"somgxyzq"}
+{"time":"2025-12-03T01:15:27.368904+01:00","level":"INFO","msg":"stream: started","id":"somgxyzq"}
+{"time":"2025-12-03T01:15:27.368922+01:00","level":"INFO","msg":"sender: started","stream_id":"somgxyzq"}
+{"time":"2025-12-03T01:15:27.368931+01:00","level":"INFO","msg":"writer: started","stream_id":"somgxyzq"}
+{"time":"2025-12-03T01:15:43.69848+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":3162}
+{"time":"2025-12-03T01:15:43.898046+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":55}
+{"time":"2025-12-03T01:15:58.696556+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":7961}
+{"time":"2025-12-03T01:15:58.859145+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":46}
+{"time":"2025-12-03T01:16:28.791463+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":13620}
+{"time":"2025-12-03T01:16:28.887414+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":14}
+{"time":"2025-12-03T01:16:58.796706+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":18979}
+{"time":"2025-12-03T01:16:58.87214+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":11}
+{"time":"2025-12-03T01:17:13.815223+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":21725}
+{"time":"2025-12-03T01:17:13.850525+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":6}
+{"time":"2025-12-03T01:17:21.8243+01:00","level":"INFO","msg":"stream: closing","id":"somgxyzq"}
+{"time":"2025-12-03T01:17:22.607957+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-12-03T01:17:23.26711+01:00","level":"INFO","msg":"handler: closed","stream_id":"somgxyzq"}
+{"time":"2025-12-03T01:17:23.267583+01:00","level":"INFO","msg":"sender: closed","stream_id":"somgxyzq"}
+{"time":"2025-12-03T01:17:23.267643+01:00","level":"INFO","msg":"stream: closed","id":"somgxyzq"}

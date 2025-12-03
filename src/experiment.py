@@ -44,6 +44,12 @@ def main(cfg: DictConfig):
     conv_ae = ConvAE.load_from_checkpoint(best_encoder_path, cfg=cfg.net)
     pretrained_encoder = conv_ae.encoder
 
+    # --- ADD THIS: FREEZE ENCODER ---
+    print("Freezing Encoder weights for Transfer Learning...")
+    for param in pretrained_encoder.parameters():
+        param.requires_grad = False
+    # --------------------------------
+
     lstm_model = LSTMClassifier(cfg.net, pretrained_encoder)
 
     lstm_checkpoint = ModelCheckpoint(
@@ -55,14 +61,13 @@ def main(cfg: DictConfig):
     lstm_earlystop = EarlyStopping(monitor="val_acc", patience=5, mode="max")
 
     lstm_trainer = Trainer(
-        patience=15,
         logger=wandb_logger,
         callbacks=[lstm_checkpoint, lstm_earlystop],
         **cfg.trainer
     )
 
     lstm_trainer.fit(lstm_model, train_loader, val_loader)
-    best_lstm_model = LSTMClassifier.load_from_checkpoint(best_lstm_path, pretrained_encoder=pretrained_encoder, cfg=cfg.net)
+    best_lstm_model = LSTMClassifier.load_from_checkpoint(lstm_checkpoint.best_model_path, pretrained_encoder=pretrained_encoder, cfg=cfg.net)
     lstm_trainer.test(best_lstm_model, test_loader)
     
     hyperparams_dict = OmegaConf.to_container(cfg, resolve=True)

@@ -1,5 +1,4 @@
 defaults:
- - /block: conv
  - /embed: conv
  - /unembed: lazy_linear
  - /optimizer: adam

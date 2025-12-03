@@ -1,0 +1,19 @@
+{"time":"2025-12-03T00:27:43.835747+01:00","level":"INFO","msg":"stream: starting","core version":"0.23.0"}
+{"time":"2025-12-03T00:27:44.237443+01:00","level":"INFO","msg":"stream: created new stream","id":"47rrodha"}
+{"time":"2025-12-03T00:27:44.237636+01:00","level":"INFO","msg":"handler: started","stream_id":"47rrodha"}
+{"time":"2025-12-03T00:27:44.237802+01:00","level":"INFO","msg":"stream: started","id":"47rrodha"}
+{"time":"2025-12-03T00:27:44.237843+01:00","level":"INFO","msg":"writer: started","stream_id":"47rrodha"}
+{"time":"2025-12-03T00:27:44.23784+01:00","level":"INFO","msg":"sender: started","stream_id":"47rrodha"}
+{"time":"2025-12-03T00:28:00.06741+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":2723}
+{"time":"2025-12-03T00:28:00.331978+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":139}
+{"time":"2025-12-03T00:28:30.163333+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":8364}
+{"time":"2025-12-03T00:28:30.241214+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":12}
+{"time":"2025-12-03T00:28:45.05233+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":11111}
+{"time":"2025-12-03T00:28:45.253657+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":30}
+{"time":"2025-12-03T00:29:00.179447+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":13813}
+{"time":"2025-12-03T00:29:00.244809+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":11}
+{"time":"2025-12-03T00:29:19.329158+01:00","level":"INFO","msg":"stream: closing","id":"47rrodha"}
+{"time":"2025-12-03T00:29:20.38151+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-12-03T00:29:20.715549+01:00","level":"INFO","msg":"handler: closed","stream_id":"47rrodha"}
+{"time":"2025-12-03T00:29:20.715832+01:00","level":"INFO","msg":"sender: closed","stream_id":"47rrodha"}
+{"time":"2025-12-03T00:29:20.715909+01:00","level":"INFO","msg":"stream: closed","id":"47rrodha"}

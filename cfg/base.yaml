@@ -5,8 +5,8 @@ defaults:
 seed: 42
 
 net:
-  depth: 3
-  width: 64
+  #depth: 3
+  #width: 64
   num_classes: 6
 
 trainer:
@@ -14,11 +14,11 @@ trainer:
   log_every_n_steps: 10
 
 dataset:
-  data_dir: "./data"
+  data_dir: "${oc.env:PWD}/data"
   batch_size: 32
   val_split: 0.2
 
 wandb :
   project: "FDS_PROJECT"
   entity: "catairu-sapienza-universit-di-roma"
-  name: "ep${trainer.max_epochs}_bs${dataset.batch_size}_lr${net.optimizer.lr}_d${net.depth}_w${net.width}_h${net.rnn_block.hidden_size}_l${net.rnn_block.num_layers}_${net.optimizer._target_}_lr${net.optimizer.lr}"
+  name: "skif2_provaCA"

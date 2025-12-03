@@ -1,0 +1,129 @@
+_wandb:
+    value:
+        cli_version: 0.23.0
+        e:
+            e63sw0i08mxxkphcpjb5q6asx43nont0:
+                apple:
+                    ecpuCores: 4
+                    gpuCores: 7
+                    memoryGb: 8
+                    name: Apple M1
+                    pcpuCores: 4
+                    ramTotalBytes: "8589934592"
+                    swapTotalBytes: "6442450944"
+                codePath: src/experiment.py
+                codePathLocal: src/experiment.py
+                cpu_count: 8
+                cpu_count_logical: 8
+                disk:
+                    /:
+                        total: "245107195904"
+                        used: "157779394560"
+                email: carloalfieri03@gmail.com
+                executable: /Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/bin/python3
+                git:
+                    commit: ae89981320e109f6de28ddd0fa9f0308e4fba098
+                    remote: https://github.com/Catairu/FDS_PROJECT.git
+                host: MacBook-Air-di-Carlo.local
+                memory:
+                    total: "8589934592"
+                os: macOS-14.6.1-arm64-arm-64bit
+                program: /Users/carloalbertoalfieri/Desktop/FDS_PROJECT/src/experiment.py
+                python: CPython 3.12.11
+                root: .
+                startedAt: "2025-12-03T00:18:43.150746Z"
+                writerId: e63sw0i08mxxkphcpjb5q6asx43nont0
+        m:
+            - "1": trainer/global_step
+              "6":
+                - 3
+              "7": []
+            - "2": '*'
+              "5": 1
+              "6":
+                - 1
+              "7": []
+        python_version: 3.12.11
+        t:
+            "1":
+                - 1
+                - 41
+                - 50
+                - 106
+            "2":
+                - 1
+                - 41
+                - 50
+                - 106
+            "3":
+                - 7
+                - 13
+                - 66
+            "4": 3.12.11
+            "5": 0.23.0
+            "12": 0.23.0
+            "13": darwin-arm64
+cfg:
+    value: '{''num_classes'': 6, ''block'': {''_target_'': ''net.cnn.EncoderWrapper'', ''in_channels'': 9, ''out_channels'': 256, ''kernel_size'': 5, ''pool_size'': 2}, ''embed'': {''_target_'': ''net.cnn.EncoderWrapper'', ''in_channels'': 9, ''layer_widths'': [64, 128, 256], ''kernel_size'': 5, ''stride'': 2}, ''unembed'': {''_target_'': ''torch.nn.LazyLinear'', ''out_features'': 6}, ''optimizer'': {''_target_'': ''torch.optim.Adam'', ''lr'': 0.001, ''weight_decay'': 0.0}, ''rnn_block'': {''_target_'': ''net.rnn.LSTMBlock'', ''input_size'': 256, ''hidden_size'': 128, ''num_layers'': 2, ''dropout'': 0.25, ''bidirectional'': True}, ''decoder'': {''_target_'': ''net.cnn.DecoderWrapper'', ''in_channels'': 256, ''layer_widths'': [128, 64, 9], ''kernel_size'': 5, ''stride'': 2, ''output_padding'': 1, ''use_batchnorm'': True}}'
+dataset:
+    value:
+        batch_size: 64
+        data_dir: /Users/carloalbertoalfieri/desktop/FDS_PROJECT/data
+        val_split: 0.2
+info:
+    value:
+        num_params: 1000198
+net:
+    value:
+        block:
+            _target_: net.cnn.EncoderWrapper
+            in_channels: 9
+            kernel_size: 5
+            out_channels: 256
+            pool_size: 2
+        decoder:
+            _target_: net.cnn.DecoderWrapper
+            in_channels: 256
+            kernel_size: 5
+            layer_widths:
+                - 128
+                - 64
+                - 9
+            output_padding: 1
+            stride: 2
+            use_batchnorm: true
+        embed:
+            _target_: net.cnn.EncoderWrapper
+            in_channels: 9
+            kernel_size: 5
+            layer_widths:
+                - 64
+                - 128
+                - 256
+            stride: 2
+        num_classes: 6
+        optimizer:
+            _target_: torch.optim.Adam
+            lr: 0.001
+            weight_decay: 0
+        rnn_block:
+            _target_: net.rnn.LSTMBlock
+            bidirectional: true
+            dropout: 0.25
+            hidden_size: 128
+            input_size: 256
+            num_layers: 2
+        unembed:
+            _target_: torch.nn.LazyLinear
+            out_features: 6
+seed:
+    value: 42
+trainer:
+    value:
+        log_every_n_steps: 10
+        max_epochs: 100
+wandb:
+    value:
+        entity: catairu-sapienza-universit-di-roma
+        name: skif2_provaCA
+        project: FDS_PROJECT

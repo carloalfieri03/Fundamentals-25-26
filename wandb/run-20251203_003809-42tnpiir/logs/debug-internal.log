@@ -1,0 +1,21 @@
+{"time":"2025-12-03T00:38:09.877801+01:00","level":"INFO","msg":"stream: starting","core version":"0.23.0"}
+{"time":"2025-12-03T00:38:10.336418+01:00","level":"INFO","msg":"stream: created new stream","id":"42tnpiir"}
+{"time":"2025-12-03T00:38:10.33647+01:00","level":"INFO","msg":"handler: started","stream_id":"42tnpiir"}
+{"time":"2025-12-03T00:38:10.33664+01:00","level":"INFO","msg":"stream: started","id":"42tnpiir"}
+{"time":"2025-12-03T00:38:10.33665+01:00","level":"INFO","msg":"sender: started","stream_id":"42tnpiir"}
+{"time":"2025-12-03T00:38:10.336665+01:00","level":"INFO","msg":"writer: started","stream_id":"42tnpiir"}
+{"time":"2025-12-03T00:38:26.324312+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":3039}
+{"time":"2025-12-03T00:38:26.49358+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":46}
+{"time":"2025-12-03T00:38:41.325135+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":7755}
+{"time":"2025-12-03T00:38:41.433249+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":28}
+{"time":"2025-12-03T00:38:56.394017+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":10263}
+{"time":"2025-12-03T00:38:56.492653+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":12}
+{"time":"2025-12-03T00:39:11.426994+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":12948}
+{"time":"2025-12-03T00:39:11.504555+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":15}
+{"time":"2025-12-03T00:39:26.255131+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":15623}
+{"time":"2025-12-03T00:39:26.468258+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":76}
+{"time":"2025-12-03T00:39:35.102766+01:00","level":"INFO","msg":"stream: closing","id":"42tnpiir"}
+{"time":"2025-12-03T00:39:35.928272+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-12-03T00:39:36.775901+01:00","level":"INFO","msg":"handler: closed","stream_id":"42tnpiir"}
+{"time":"2025-12-03T00:39:36.776331+01:00","level":"INFO","msg":"sender: closed","stream_id":"42tnpiir"}
+{"time":"2025-12-03T00:39:36.77642+01:00","level":"INFO","msg":"stream: closed","id":"42tnpiir"}

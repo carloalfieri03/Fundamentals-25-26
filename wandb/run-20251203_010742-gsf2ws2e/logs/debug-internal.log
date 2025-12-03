@@ -1,0 +1,23 @@
+{"time":"2025-12-03T01:07:42.681447+01:00","level":"INFO","msg":"stream: starting","core version":"0.23.0"}
+{"time":"2025-12-03T01:07:43.065165+01:00","level":"INFO","msg":"stream: created new stream","id":"gsf2ws2e"}
+{"time":"2025-12-03T01:07:43.065353+01:00","level":"INFO","msg":"handler: started","stream_id":"gsf2ws2e"}
+{"time":"2025-12-03T01:07:43.06553+01:00","level":"INFO","msg":"stream: started","id":"gsf2ws2e"}
+{"time":"2025-12-03T01:07:43.065532+01:00","level":"INFO","msg":"writer: started","stream_id":"gsf2ws2e"}
+{"time":"2025-12-03T01:07:43.065553+01:00","level":"INFO","msg":"sender: started","stream_id":"gsf2ws2e"}
+{"time":"2025-12-03T01:07:58.943184+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":2644}
+{"time":"2025-12-03T01:07:59.072516+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":34}
+{"time":"2025-12-03T01:08:13.960777+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":7326}
+{"time":"2025-12-03T01:08:14.123222+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":44}
+{"time":"2025-12-03T01:08:44.051576+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":13257}
+{"time":"2025-12-03T01:08:44.11908+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":21}
+{"time":"2025-12-03T01:08:59.077051+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":16004}
+{"time":"2025-12-03T01:08:59.090309+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":3}
+{"time":"2025-12-03T01:09:14.04759+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":18774}
+{"time":"2025-12-03T01:09:14.09503+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":6}
+{"time":"2025-12-03T01:09:28.926447+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":21430}
+{"time":"2025-12-03T01:09:29.090848+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":58}
+{"time":"2025-12-03T01:09:37.777301+01:00","level":"INFO","msg":"stream: closing","id":"gsf2ws2e"}
+{"time":"2025-12-03T01:09:38.940274+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-12-03T01:09:39.618607+01:00","level":"INFO","msg":"handler: closed","stream_id":"gsf2ws2e"}
+{"time":"2025-12-03T01:09:39.619068+01:00","level":"INFO","msg":"sender: closed","stream_id":"gsf2ws2e"}
+{"time":"2025-12-03T01:09:39.619165+01:00","level":"INFO","msg":"stream: closed","id":"gsf2ws2e"}

@@ -1,0 +1,37 @@
+{
+  "os": "macOS-14.6.1-arm64-arm-64bit",
+  "python": "CPython 3.12.11",
+  "startedAt": "2025-12-02T23:17:32.310696Z",
+  "program": "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/src/experiment.py",
+  "codePath": "src/experiment.py",
+  "codePathLocal": "src/experiment.py",
+  "git": {
+    "remote": "https://github.com/Catairu/FDS_PROJECT.git",
+    "commit": "ae89981320e109f6de28ddd0fa9f0308e4fba098"
+  },
+  "email": "carloalfieri03@gmail.com",
+  "root": ".",
+  "host": "MacBook-Air-di-Carlo.local",
+  "executable": "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/bin/python3",
+  "cpu_count": 8,
+  "cpu_count_logical": 8,
+  "disk": {
+    "/": {
+      "total": "245107195904",
+      "used": "157719015424"
+    }
+  },
+  "memory": {
+    "total": "8589934592"
+  },
+  "apple": {
+    "name": "Apple M1",
+    "ecpuCores": 4,
+    "pcpuCores": 4,
+    "gpuCores": 7,
+    "memoryGb": 8,
+    "swapTotalBytes": "6442450944",
+    "ramTotalBytes": "8589934592"
+  },
+  "writerId": "ks7h2xnt4zy7kln1yozuoeq5woo9b21x"
+}

@@ -1,0 +1,50 @@
+
+  | Name    | Type          | Params | Mode
+--------------------------------------------------
+0 | encoder | ConvBlock     | 1.8 K  | train
+1 | decoder | DeconvBlock1D | 1.8 K  | train
+--------------------------------------------------
+3.5 K     Trainable params
+0         Non-trainable params
+3.5 K     Total params
+0.014     Total estimated model params size (MB)
+9         Modules in train mode
+0         Modules in eval mode
+Epoch 9: 100%|█| 184/184 [00:00<00:00, 205.63it/s, v_num=tihc, train_loss=0.318, val_loss=0
+/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/utils/data/dataloader.py:692: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, device pinned memory won't be used.
+  warnings.warn(warn_msg)
+                                                                                           
+`Trainer.fit` stopped: `max_epochs=10` reached.
+Error executing job with overrides: []
+Traceback (most recent call last):
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/src/experiment.py", line 92, in <module>
+    main()
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+    raise ex
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+           ^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+            ^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/hydra.py", line 132, in run
+    _ = ret.return_value
+        ^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/core/utils.py", line 260, in return_value
+    raise self._return_value
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/src/experiment.py", line 57, in main
+    lstm_trainer = Trainer(
+                   ^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/utilities/argparse.py", line 70, in insert_env_defaults
+    return fn(self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+TypeError: Trainer.__init__() got an unexpected keyword argument 'patience'

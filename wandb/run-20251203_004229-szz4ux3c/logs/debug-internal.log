@@ -1,0 +1,25 @@
+{"time":"2025-12-03T00:42:30.122576+01:00","level":"INFO","msg":"stream: starting","core version":"0.23.0"}
+{"time":"2025-12-03T00:42:30.237291+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-12-03T00:42:32.292864+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-12-03T00:42:36.500155+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-12-03T00:42:45.096952+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-12-03T00:43:04.98597+01:00","level":"INFO","msg":"stream: created new stream","id":"szz4ux3c"}
+{"time":"2025-12-03T00:43:04.986611+01:00","level":"INFO","msg":"handler: started","stream_id":"szz4ux3c"}
+{"time":"2025-12-03T00:43:04.987286+01:00","level":"INFO","msg":"stream: started","id":"szz4ux3c"}
+{"time":"2025-12-03T00:43:04.987558+01:00","level":"INFO","msg":"sender: started","stream_id":"szz4ux3c"}
+{"time":"2025-12-03T00:43:04.987665+01:00","level":"INFO","msg":"writer: started","stream_id":"szz4ux3c"}
+{"time":"2025-12-03T00:43:20.682492+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":2889}
+{"time":"2025-12-03T00:43:20.940921+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":99}
+{"time":"2025-12-03T00:43:35.751516+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":7720}
+{"time":"2025-12-03T00:43:35.936534+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":50}
+{"time":"2025-12-03T00:44:05.845586+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":13482}
+{"time":"2025-12-03T00:44:05.948336+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":14}
+{"time":"2025-12-03T00:44:35.871518+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":18876}
+{"time":"2025-12-03T00:44:35.896046+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":3}
+{"time":"2025-12-03T00:44:50.85653+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":21620}
+{"time":"2025-12-03T00:44:50.90233+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":6}
+{"time":"2025-12-03T00:44:59.558739+01:00","level":"INFO","msg":"stream: closing","id":"szz4ux3c"}
+{"time":"2025-12-03T00:45:00.671468+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-12-03T00:45:01.493733+01:00","level":"INFO","msg":"handler: closed","stream_id":"szz4ux3c"}
+{"time":"2025-12-03T00:45:01.494186+01:00","level":"INFO","msg":"sender: closed","stream_id":"szz4ux3c"}
+{"time":"2025-12-03T00:45:01.494292+01:00","level":"INFO","msg":"stream: closed","id":"szz4ux3c"}

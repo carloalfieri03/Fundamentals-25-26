@@ -1,0 +1,128 @@
+
+  | Name    | Type           | Params | Mode
+---------------------------------------------------
+0 | encoder | EncoderWrapper | 125 K  | train
+1 | decoder | DecoderWrapper | 125 K  | train
+---------------------------------------------------
+250 K     Trainable params
+0         Non-trainable params
+250 K     Total params
+1.001     Total estimated model params size (MB)
+26        Modules in train mode
+0         Modules in eval mode
+Epoch 9: 100%|████████████████████| 184/184 [00:01<00:00, 100.35it/s, v_num=xlqw, train_loss=0.0127, val_loss=0.0163]
+/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/utils/data/dataloader.py:692: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, device pinned memory won't be used.
+  warnings.warn(warn_msg)
+Freezing Encoder weights for Transfer Learning...                                                                    
+GPU available: True (mps), used: True
+TPU available: False, using: 0 TPU cores
+/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/callbacks/model_checkpoint.py:751: Checkpoint directory ./FDS_PROJECT/bl6mxlqw/checkpoints exists and is not empty.
+W1203 00:23:27.879000 39083 torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/utilities/model_summary/model_summary.py:493: The total number of parameters detected may be inaccurate because the model contains an instance of `UninitializedParameter`. To get an accurate number, set `self.example_input_array` in your LightningModule.
+
+  | Name      | Type               | Params | Mode
+---------------------------------------------------------
+0 | encoder   | EncoderWrapper     | 125 K  | eval
+1 | lstm      | LSTMBlock          | 593 K  | train
+2 | fc        | LazyLinear         | 0      | train
+3 | train_acc | MulticlassAccuracy | 0      | train
+4 | val_acc   | MulticlassAccuracy | 0      | train
+5 | test_acc  | MulticlassAccuracy | 0      | train
+---------------------------------------------------------
+593 K     Trainable params
+125 K     Non-trainable params
+718 K     Total params
+2.876     Total estimated model params size (MB)
+6         Modules in train mode
+11        Modules in eval mode
+Sanity Checking DataLoader 0:   0%|                                                            | 0/2 [00:00<?, ?it/s]
+Error executing job with overrides: []
+Traceback (most recent call last):
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/src/experiment.py", line 97, in <module>
+    main()
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+    raise ex
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+           ^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+            ^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/_internal/hydra.py", line 132, in run
+    _ = ret.return_value
+        ^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/core/utils.py", line 260, in return_value
+    raise self._return_value
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/src/experiment.py", line 69, in main
+    lstm_trainer.fit(lstm_model, train_loader, val_loader)
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/trainer/trainer.py", line 560, in fit
+    call._call_and_handle_interrupt(
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/trainer/call.py", line 49, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/trainer/trainer.py", line 598, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/trainer/trainer.py", line 1011, in _run
+    results = self._run_stage()
+              ^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/trainer/trainer.py", line 1053, in _run_stage
+    self._run_sanity_check()
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/trainer/trainer.py", line 1082, in _run_sanity_check
+    val_loop.run()
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/loops/utilities.py", line 179, in _decorator
+    return loop_run(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 145, in run
+    self._evaluation_step(batch, batch_idx, dataloader_idx, dataloader_iter)
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 437, in _evaluation_step
+    output = call._call_strategy_hook(trainer, hook_name, *step_args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/trainer/call.py", line 329, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/strategies/strategy.py", line 412, in validation_step
+    return self.lightning_module.validation_step(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/src/net/base.py", line 79, in validation_step
+    y_hat = self(x)
+            ^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/src/net/base.py", line 63, in forward
+    z = self.lstm(z)
+        ^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/src/net/rnn.py", line 27, in forward
+    out, (hn, cn) = self.lstm(x)
+            ^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/nn/modules/rnn.py", line 1104, in forward
+    self.check_forward_args(input, hx, batch_sizes)
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/nn/modules/rnn.py", line 1005, in check_forward_args
+    self.check_input(input, batch_sizes)
+  File "/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/nn/modules/rnn.py", line 315, in check_input
+    raise RuntimeError(
+RuntimeError: input.size(-1) must be equal to input_size. Expected 64, got 256

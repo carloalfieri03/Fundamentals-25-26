@@ -1,0 +1,46 @@
+
+  | Name    | Type           | Params | Mode
+---------------------------------------------------
+0 | encoder | EncoderWrapper | 26.5 K | train
+1 | decoder | DecoderWrapper | 26.7 K | train
+---------------------------------------------------
+53.2 K    Trainable params
+0         Non-trainable params
+53.2 K    Total params
+0.213     Total estimated model params size (MB)
+26        Modules in train mode
+0         Modules in eval mode
+Epoch 17: 100%|███████████████████| 184/184 [00:01<00:00, 123.86it/s, v_num=yp3c, train_loss=0.0133, val_loss=0.0176]
+/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/torch/utils/data/dataloader.py:692: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, device pinned memory won't be used.
+  warnings.warn(warn_msg)
+Freezing Encoder weights for Transfer Learning...                                                                    
+GPU available: True (mps), used: True
+TPU available: False, using: 0 TPU cores
+/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/callbacks/model_checkpoint.py:751: Checkpoint directory ./FDS_PROJECT/q7ewyp3c/checkpoints exists and is not empty.
+W1203 00:18:07.533000 38653 torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/utilities/model_summary/model_summary.py:493: The total number of parameters detected may be inaccurate because the model contains an instance of `UninitializedParameter`. To get an accurate number, set `self.example_input_array` in your LightningModule.
+
+  | Name      | Type               | Params | Mode
+---------------------------------------------------------
+0 | encoder   | EncoderWrapper     | 26.5 K | eval
+1 | lstm      | LSTMBlock          | 593 K  | train
+2 | fc        | LazyLinear         | 0      | train
+3 | train_acc | MulticlassAccuracy | 0      | train
+4 | val_acc   | MulticlassAccuracy | 0      | train
+5 | test_acc  | MulticlassAccuracy | 0      | train
+---------------------------------------------------------
+593 K     Trainable params
+26.5 K    Non-trainable params
+620 K     Total params
+2.482     Total estimated model params size (MB)
+6         Modules in train mode
+11        Modules in eval mode
+Epoch 16: 100%|█| 184/184 [00:03<00:00, 59.59it/s, v_num=yp3c, train_loss=0.0309, train_acc=1.000, val_loss=0.123, va
+/Users/carloalbertoalfieri/Desktop/FDS_PROJECT/.venv/lib/python3.12/site-packages/lightning/pytorch/loops/fit_loop.py:527: Found 11 module(s) in eval mode at the start of training. This may lead to unexpected behavior during training. If this is intentional, you can ignore this warning.
+Testing DataLoader 0: 100%|█████████████████████████████████████████████████████████| 93/93 [00:00<00:00, 125.32it/s]
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.8978622555732727
+        test_loss           0.31685757637023926
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────

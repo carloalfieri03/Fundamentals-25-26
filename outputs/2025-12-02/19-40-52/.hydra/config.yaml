@@ -1,0 +1,51 @@
+seed: 42
+net:
+  depth: 3
+  width: 64
+  num_classes: 6
+  block:
+    _target_: net.cnn.ConvBlock
+    in_channels: ${net.width}
+    out_channels: ${net.width}
+    kernel_size: 3
+    pool_size: 2
+  embed:
+    _target_: net.cnn.ConvBlock
+    in_channels: 9
+    out_channels: ${net.width}
+    kernel_size: 3
+    pool_size: 1
+  unembed:
+    _target_: torch.nn.LazyLinear
+    out_features: 6
+  optimizer:
+    _target_: torch.optim.Adam
+    lr: 0.001
+    weight_decay: 0.0
+  rnn_block:
+    _target_: net.rnn.LSTMBlock
+    input_size: ${net.width}
+    hidden_size: 128
+    num_layers: 2
+    dropout: 0.1
+    bidirectional: false
+  decoder:
+    _target_: net.cnn.DeconvBlock1D
+    in_channels: ${net.width}
+    out_channels: 9
+    kernel_size: 3
+    stride: 2
+    padding: 1
+    output_padding: 1
+    use_batchnorm: true
+trainer:
+  max_epochs: 10
+  log_every_n_steps: 5
+dataset:
+  data_dir: ${oc.env:PWD}/data
+  batch_size: 32
+  val_split: 0.2
+wandb:
+  project: FDS_PROJECT
+  entity: catairu-sapienza-universit-di-roma
+  name: provaCA
