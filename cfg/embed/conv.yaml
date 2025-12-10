@@ -1,13 +1,9 @@
-_target_: net.cnn.EncoderWrapper
-#in_channels: 9
-##out_channels: ${net.width}
-#layer_widths: [64, 64, 64]
-#kernel_size: 3
-#pool_size: 1
+_target_: net.cnn.ConvBlock
 
 in_channels: 9
-layer_widths: [64, 128, 256]
-kernel_size: 5
-
-# --- ADD THIS ---
+out_channels: 128
+kernel_size: 3
+pool_size: 2
+pool_stride: 2
 stride: 2
+

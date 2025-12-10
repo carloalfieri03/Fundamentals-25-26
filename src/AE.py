@@ -21,61 +21,44 @@ import os
 def main(cfg: DictConfig):
     lit.seed_everything(cfg.seed) 
     wandb_logger = WandbLogger(**cfg.wandb)
+    
+    # 1. Load Data
     train_loader, val_loader, test_loader = load_har(**cfg.dataset)
+    
+    # 2. Instantiate ConvAE Model
     conv_ae = ConvAE(cfg.net)
 
+    # 3. Setup ConvAE Callbacks
     ae_checkpoint = ModelCheckpoint(
         monitor="val_loss",
         mode="min",
         save_top_k=1,
         filename="convAE-{epoch:02d}-{val_loss:.4f}"
     )
-    ae_earlystop = EarlyStopping(monitor="val_loss", patience=20, mode="min")
+    patience=cfg.trainer.get("patience", 20)
+    ae_earlystop = EarlyStopping(monitor="val_loss", patience=patience, mode="min")
 
+    # 4. Setup ConvAE Trainer
     ae_trainer = Trainer(
         logger=wandb_logger,
         callbacks=[ae_checkpoint, ae_earlystop],
         **cfg.trainer
     )
 
+    # 5. FIT (Train) the ConvAE
+    print("--- Starting Convolutional Autoencoder (ConvAE) Training ---")
     ae_trainer.fit(conv_ae, train_loader, val_loader)
-
-    best_encoder_path = ae_checkpoint.best_model_path
+    print("--- ConvAE Training Complete ---")
     
-    # 1. FIX: Load the ConvAE object again to access its components
-    conv_ae = ConvAE.load_from_checkpoint(best_encoder_path, cfg=cfg.net)
-    pretrained_encoder = conv_ae.encoder
+    # Optional: Log the best ConvAE loss and the path to the best model
+    best_loss = ae_checkpoint.best_model_score.item()
+    best_ae_path = ae_checkpoint.best_model_path
+    best_ae_model = ConvAE.load_from_checkpoint(ae_checkpoint.best_model_path,cfg=cfg.net)
 
-    # --- ADD THIS: FREEZE ENCODER ---
-    print("Freezing Encoder weights for Transfer Learning...")
-    for param in pretrained_encoder.parameters():
-        param.requires_grad = False
+    print(f"Best Validation Loss: {best_loss:.4f}")
+    print(f"Best ConvAE Model saved at: {best_ae_path}")
 
-
-    lstm_model = LSTMClassifier(cfg.net, pretrained_encoder) 
-    lstm_checkpoint = ModelCheckpoint(
-        monitor="val_acc",
-        mode="max",
-        save_top_k=1,
-        filename="LSTM-{epoch:02d}-{val_acc:.4f}"
-    )
-    lstm_earlystop = EarlyStopping(monitor="val_acc", patience=20, mode="max")
-
-    lstm_trainer = Trainer(
-        logger=wandb_logger,
-        callbacks=[lstm_checkpoint, lstm_earlystop],
-        **cfg.trainer
-    )
-
-    lstm_trainer.fit(lstm_model, train_loader, val_loader)
-    best_lstm_model = LSTMClassifier.load_from_checkpoint(lstm_checkpoint.best_model_path, pretrained_encoder=pretrained_encoder,cfg=cfg.net)
-    lstm_trainer.test(best_lstm_model, test_loader)
-    
-    hyperparams_dict = OmegaConf.to_container(cfg, resolve=True)
-    hyperparams_dict["info"] = {  
-        "num_params": get_num_params(best_lstm_model),
-    }
-    wandb_logger.log_hyperparams(hyperparams_dict)  
+    ae_trainer.test(best_ae_model, test_loader)
 
 def get_num_params(module):
     """
@@ -96,3 +79,6 @@ def get_num_params(module):
 if __name__ == "__main__":
     os.environ['HYDRA_FULL_ERROR'] = "1"
     main()
+    
+
+# The helper function 'get_num_params' and the '__main__' block should remain unchanged.
