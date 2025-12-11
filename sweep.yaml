@@ -10,30 +10,39 @@ parameters:
   trainer.max_epochs:
       distribution: int_uniform
       min: 50
-      max: 200
+      max: 300
 
+  callbacks.patience_LSTM:
+      distribution: int_uniform
+      min: 10
+      max: 40
+  
   dataset.batch_size:
-      values: [16, 32, 64, 128, 192]
+    values: [32, 64, 128, 192, 256]
 
   dataset.val_split:
       distribution: uniform
       min: 0.1
       max: 0.3
-  net.depth:
-      values: [2, 3, 4, 5]
 
-  net.width:
-      values: [32, 64, 128, 256]
-    
-  net.optimizer._target_:
-      values:
-        - torch.optim.Adam
-        - torch.optim.SGD
+#### ENCODER PART ########
+  callbacks.patience_AE:
+      distribution: int_uniform
+      min: 3
+      max: 40
 
-  net.optimizer.lr:
+  net.embed.out_channels:
+      distribution: int_uniform
+      min: 23
+      max: 580
+  
+  net.beta:
       distribution: uniform
-      min: 0.0001
-      max: 0.001
+      min: 0.01
+      max: 0.2
+    
+
+#### LSTM PART ########
 
   net.rnn_block.hidden_size:
       values: [64, 128, 256, 512]
@@ -41,6 +50,50 @@ parameters:
   net.rnn_block.num_layers:
       values: [1, 2, 3]
 
+  net.rnn_block.dropout:
+      distribution: uniform
+      min: 0.0
+      max: 0.8
+
+  net.rnn_block.bidirectional:
+      values: [true, false]
+
+  net.fc_block.hidden_size: 
+    values: 
+      - "[64]"
+      - "[128, 64]"
+      - "[256, 128, 64]"
+      - "[512, 256, 128]"
+    
+  net.fc_block.dropout:
+   distribution: uniform
+   min: 0.0
+   max: 0.8
+
+  net.fc_block.activation_type:
+      values: ["ReLU", "ELU", "GELU"]
+
+  net.lstm_weigts:
+    values:
+      - "[1.0, 1.0, 1.0, 1.0, 1.0, 1.0]"       # Uniform weights
+      - "[0.95, 1.06, 1.19, 1.13, 0.84, 0.91]" # Your current baseline/Inverse Freq
+      - "[1.0, 1.0, 1.0, 2.0, 2.0, 1.0]"       # Higher weight for Sitting/Standing
+      - "[1.5, 1.5, 1.5, 0.5, 0.5, 0.5]"       # Higher weight for motion classes
+
+##### OPTIMIZER PART ########
+  net.optimizer.lr:
+    distribution: log_uniform_values 
+    min: 1e-4
+    max: 1e-2
+  net.optimizer.weight_decay:
+    distribution: log_uniform_values 
+    min: 1e-4
+    max: 1e-2
+
+early_terminate:
+    type: hyperband
+    min_iter: 30      # Start evaluating performance after 10 epochs
+    eta: 2            # Prune the bottom 50% of runs every evaluation cycle
 
 
 command:

@@ -19,6 +19,9 @@ import os
 
 @hydra.main(config_path="../cfg", config_name="base", version_base=None)
 def main(cfg: DictConfig):
+    
+    print(OmegaConf.to_yaml(cfg))
+
     lit.seed_everything(cfg.seed) 
     wandb_logger = WandbLogger(**cfg.wandb)
     train_loader, val_loader, test_loader = load_har(**cfg.dataset)
@@ -30,7 +33,8 @@ def main(cfg: DictConfig):
         save_top_k=1,
         filename="convAE-{epoch:02d}-{val_loss:.4f}"
     )
-    ae_earlystop = EarlyStopping(monitor="val_loss", patience=20, mode="min")
+    patience_AE=cfg.callbacks.get("patience_AE", 20)
+    ae_earlystop = EarlyStopping(monitor="val_loss", patience=patience_AE, mode="min")
 
     ae_trainer = Trainer(
         logger=wandb_logger,
@@ -59,7 +63,8 @@ def main(cfg: DictConfig):
         save_top_k=1,
         filename="LSTM-{epoch:02d}-{val_acc:.4f}"
     )
-    lstm_earlystop = EarlyStopping(monitor="val_acc", patience=20, mode="max")
+    patience_LSTM=cfg.callbacks.get("patience_LSTM", 20)
+    lstm_earlystop = EarlyStopping(monitor="val_acc", patience=patience_LSTM, mode="max")
 
     lstm_trainer = Trainer(
         logger=wandb_logger,
@@ -89,6 +94,7 @@ def get_num_params(module):
     """
     total_params = sum(p.numel() for p in module.parameters() )
     return total_params
+
 
 
 

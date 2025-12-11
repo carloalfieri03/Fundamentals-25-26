@@ -35,7 +35,7 @@ def main(cfg: DictConfig):
         save_top_k=1,
         filename="convAE-{epoch:02d}-{val_loss:.4f}"
     )
-    patience=cfg.trainer.get("patience", 20)
+    patience=cfg.callbacks.get("patience", 20)
     ae_earlystop = EarlyStopping(monitor="val_loss", patience=patience, mode="min")
 
     # 4. Setup ConvAE Trainer

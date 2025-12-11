@@ -12,27 +12,11 @@ from torchmetrics.classification import ConfusionMatrix
 from torchmetrics.classification import MulticlassPrecision, MulticlassRecall, MulticlassF1Score
 import wandb
 
-class FocalLoss(nn.Module):
-    def __init__(self, alpha=1, gamma=2, reduction='mean'):
-        super().__init__()
-        self.gamma = gamma
-        self.reduction = reduction
+## DA FARE:
+# Unfreeze dell'encoder durante training LSTM
+# Lazy linear optimization
+# dataset
 
-    def forward(self, inputs, targets):
-        # 1. Calculate standard Cross Entropy (raw loss per sample)
-        ce_loss = F.cross_entropy(inputs, targets, reduction='none')
-        
-        # 2. Calculate probability of the correct class (pt)
-        pt = torch.exp(-ce_loss) 
-        
-        # 3. Apply Focal Term: (1 - pt)^gamma
-        # If the model is uncertain (low pt), the loss is magnified.
-        focal_loss = (1 - pt) ** self.gamma * ce_loss
-
-        if self.reduction == 'mean':
-            return focal_loss.mean()
-        else:
-            return focal_loss.sum()
 class ConvAE(lit.LightningModule):
     def __init__(self, cfg):
         super().__init__()
@@ -40,7 +24,13 @@ class ConvAE(lit.LightningModule):
         self.cfg = cfg
         self.beta= cfg.get("beta", 0.08)
         self.encoder = instantiate(cfg.embed)
-        self.decoder = instantiate(cfg.decoder)
+        # 2. Get the output channels from the config (or the object itself)
+        # This assumes your encoder config has 'out_channels'
+        latent_dim = cfg.embed.out_channels 
+        
+        # 3. Instantiate Decoder, FORCING in_channels to match the encoder
+        # This overrides 'in_channels: 128' from the yaml file
+        self.decoder = instantiate(cfg.decoder, in_channels=latent_dim)
         self.test_acc = Accuracy(task='multiclass', num_classes=cfg.num_classes)
 
     def forward(self, x):
@@ -97,8 +87,7 @@ class LSTMClassifier(lit.LightningModule):
         
         self.save_hyperparameters(ignore=["pretrained_encoder"])
         self.cfg = cfg
-        class_weights= cfg.get("class_weights",None)
-
+        
         self.encoder = pretrained_encoder
         
         # Freezing Encoder to pass it to the LSTM
@@ -122,15 +111,7 @@ class LSTMClassifier(lit.LightningModule):
         lstm_input_dim = z_dummy.shape[1] ## Getting the input size 
 
         self.lstm = instantiate(cfg.rnn_block, input_size=lstm_input_dim) ## Passing the automatic input size
-        self.fc = self.fc = nn.Sequential(
-    nn.LazyLinear(128),  # Hidden Layer 1
-    nn.ELU(),
-    nn.Dropout(0.3),           # Activation
-    nn.Linear(128, 64),  # Hidden Layer 2
-    nn.ELU(),
-    nn.Dropout(0.3),           # Activation
-    nn.Linear(64, 6) # The final output layer 
-) ## Fully connected layer ### CHECK HOW THIS CAN AFFECT PERFORMANCE OF THE MODEL
+        self.fc = instantiate(cfg.fc_block) ## Fully connected layer ### CHECK HOW THIS CAN AFFECT PERFORMANCE OF THE MODEL
 
     def forward(self, x):
         z = self.encoder(x) 
@@ -161,9 +142,13 @@ class LSTMClassifier(lit.LightningModule):
     def training_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self(x)
-        # Create a weight tensor on the correct device
+        w_list = self.cfg.get("lstm_weigts", [1.0]*self.cfg.num_classes)
+        
+        # 2. Create Tensor AND move to device immediately
+        # If you forget .to(self.device), this will CRASH on GPU
+        class_weights = torch.tensor(w_list, dtype=torch.float).to(self.device)
 # We give higher weights (2.0) to class 3 and 4 (Sitting/Standing)
-        class_weights = torch.tensor([0.95,1.06,1.19,1.13,0.84,0.91]).to(self.device)
+
     
 # Update loss
         loss = F.cross_entropy(y_hat, y,weight=class_weights)
