@@ -132,7 +132,7 @@ class LSTMClassifier(lit.LightningModule):
 
         device = next(self.encoder.parameters()).device ## To solve GPU/CPU mismatch errors
 
-        dummy_input = torch.randn(1, 1, 128).to(device) ## Update if you change time window
+        dummy_input = torch.randn(1, 9, 128).to(device) ## Update if you change time window
         
         with torch.no_grad():
             z_dummy = self.encoder(dummy_input) # Runs the AE one time to see the shape
@@ -150,16 +150,16 @@ class LSTMClassifier(lit.LightningModule):
        #total_fc_dim = lstm_out_dim + 9
        # 
         #self.fc = nn.Linear(total_fc_dim, cfg.num_classes)
+       # self.bn=nn.BatchNorm1d(lstm_input_dim)
         self.fc= nn.LazyLinear(cfg.num_classes)
+        
        
     def forward(self, x):
-        print(x.shape())
         z = self.encoder(x)
-    
        # 2. Calculate Gravity Features (Global Average Pooling)
         # We use keepdim=True so it stays 3D: (Batch, Input_Channels, 1)
         #gravity_features = torch.mean(x, dim=2, keepdim=True) 
-        
+        #z= self.bn(z)
         # 3. Expand Gravity Features to match z's sequence length
         # Shape becomes: (Batch, Input_Channels, Seq_Len_Reduced)
        # gravity_features = gravity_features.expand(-1, -1, z.shape[2])
@@ -169,10 +169,12 @@ class LSTMClassifier(lit.LightningModule):
        # z = torch.cat((z, gravity_features), dim=1)
        # gravity_features = torch.mean(x, dim=2)
         z = z.permute(0, 2, 1)
-        lstm_out = self.lstm(z) 
+        lstm_out = self.lstm(z)
+        #lstm_out= self.bn(lstm_out)
         
         # Classify
         logits = self.fc(lstm_out)
+      
         # 3. LSTM
         # LSTM returns tuple: (output, (h_n, c_n))
         # output shape: [Batch, Time, Hidden_Size]

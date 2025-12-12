@@ -14,10 +14,12 @@ class ConvBlock(nn.Module):
             self.pool = nn.MaxPool1d(kernel_size=pool_size, stride=pool_stride)
         else:
             raise ValueError(f"Unknown pooling type: {pool_type}")
+        #self.bn= nn.BatchNorm1d(out_channels)
 
     
     def forward(self, x):
         x = self.conv(x)
+        #x= self.bn(x)
         x = self.relu(x)
         x = self.pool(x)
         return x
