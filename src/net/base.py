@@ -12,10 +12,7 @@ from torchmetrics.classification import ConfusionMatrix
 from torchmetrics.classification import MulticlassPrecision, MulticlassRecall, MulticlassF1Score
 import wandb
 
-## DA FARE:
-# Unfreeze dell'encoder durante training LSTM
-# Lazy linear optimization
-# dataset
+
 
 class ConvAE(lit.LightningModule):
     def __init__(self, cfg):
@@ -23,9 +20,9 @@ class ConvAE(lit.LightningModule):
         self.save_hyperparameters()
         self.cfg = cfg
         self.beta= cfg.get("beta", 0.08)
+        self.pooling=cfg.get("pooling_type","avg")
         self.encoder = instantiate(cfg.embed)
         # 2. Get the output channels from the config (or the object itself)
-        # This assumes your encoder config has 'out_channels'
         latent_dim = cfg.embed.out_channels 
         
         # 3. Instantiate Decoder, FORCING in_channels to match the encoder
@@ -52,6 +49,41 @@ class ConvAE(lit.LightningModule):
         loss = F.smooth_l1_loss(x_hat, x, beta=self.beta)
         #mse_loss=F.mse_loss(x_hat,x)
         self.log("val_loss", loss, prog_bar=True)
+
+        # 3. VISUALIZATION (Log only for the first batch to save data)
+        if batch_idx == 0:
+            self.log_reconstruction_images(x, x_hat)
+            
+    def log_reconstruction_images(self, x, x_hat):
+        # Pick the first sample in the batch
+        # Convert to CPU numpy: [Channels, Time]
+        orig = x[0].cpu().numpy()
+        recon = x_hat[0].detach().cpu().numpy()
+        
+        # Create a Plot (3 rows: X, Y, Z axes of Accelerometer)
+        # Assuming channels 0,1,2 are Acc_X, Acc_Y, Acc_Z
+        fig, axes = plt.subplots(3, 1, figsize=(10, 8), sharex=True)
+        axis_labels = ['Acc X', 'Acc Y', 'Acc Z']
+        
+        for i in range(3):
+            # Plot Original (Blue)
+            axes[i].plot(orig[i], label='Original (Input)', color='blue', alpha=0.7)
+            # Plot Reconstruction (Red -- Dashed)
+            axes[i].plot(recon[i], label='Reconstruction', color='red', linestyle='--', alpha=0.8)
+            axes[i].set_ylabel(axis_labels[i])
+            axes[i].legend(loc='upper right')
+            axes[i].grid(True, alpha=0.3)
+            
+        plt.xlabel("Time Steps")
+        plt.suptitle(f"Reconstruction Check (Val Loss: {self.trainer.callback_metrics.get('val_loss', 0):.4f})")
+        plt.tight_layout()
+        
+        # Log to W&B
+        # This will appear in the "Media" or "Images" section of your dashboard
+        self.logger.experiment.log({"Reconstruction Analysis": [wandb.Image(fig)]})
+        
+        # Close plot to save memory
+        plt.close(fig)
 
     def configure_optimizers(self):
         return instantiate(self.cfg.optimizer, self.parameters())
@@ -95,15 +127,12 @@ class LSTMClassifier(lit.LightningModule):
         for p in self.encoder.parameters():
             p.requires_grad = False
 
-        #self.encoder.train() 
-
-        #self.loss_fn = FocalLoss(gamma=2) ### FOCAL LOSS init
 
     # --- 3. Atuomatic input size calculation for LSTM according to the convolution bottleneck dimension ---
 
         device = next(self.encoder.parameters()).device ## To solve GPU/CPU mismatch errors
 
-        dummy_input = torch.randn(1, 9, 128).to(device) ## Update if you change time window
+        dummy_input = torch.randn(1, 1, 128).to(device) ## Update if you change time window
         
         with torch.no_grad():
             z_dummy = self.encoder(dummy_input) # Runs the AE one time to see the shape
@@ -111,24 +140,49 @@ class LSTMClassifier(lit.LightningModule):
         lstm_input_dim = z_dummy.shape[1] ## Getting the input size 
 
         self.lstm = instantiate(cfg.rnn_block, input_size=lstm_input_dim) ## Passing the automatic input size
-        self.fc = instantiate(cfg.fc_block) ## Fully connected layer ### CHECK HOW THIS CAN AFFECT PERFORMANCE OF THE MODEL
-
-    def forward(self, x):
-        z = self.encoder(x) 
+        # Check for bidirectional
+        #is_bidirectional = getattr(self.lstm, 'bidirectional', False)
+        #num_directions = 2 if is_bidirectional else 1
+       # 
+       #lstm_out_dim = self.lstm.hidden_size * num_directions
+       # 
+       # # Total Input = LSTM Features + Raw Gravity Features (9)
+       #total_fc_dim = lstm_out_dim + 9
+       # 
+        #self.fc = nn.Linear(total_fc_dim, cfg.num_classes)
+        self.fc= nn.LazyLinear(cfg.num_classes)
        
-        z = z.permute(0, 2, 1) ## reshaping for Lstm
-
-
+    def forward(self, x):
+        print(x.shape())
+        z = self.encoder(x)
+    
+       # 2. Calculate Gravity Features (Global Average Pooling)
+        # We use keepdim=True so it stays 3D: (Batch, Input_Channels, 1)
+        #gravity_features = torch.mean(x, dim=2, keepdim=True) 
+        
+        # 3. Expand Gravity Features to match z's sequence length
+        # Shape becomes: (Batch, Input_Channels, Seq_Len_Reduced)
+       # gravity_features = gravity_features.expand(-1, -1, z.shape[2])
+        
+        # 4. Concatenate along the Feature dimension (dim=1)
+        # New Shape: (Batch, Enc_Channels + Input_Channels, Seq_Len_Reduced)
+       # z = torch.cat((z, gravity_features), dim=1)
+       # gravity_features = torch.mean(x, dim=2)
+        z = z.permute(0, 2, 1)
+        lstm_out = self.lstm(z) 
+        
+        # Classify
+        logits = self.fc(lstm_out)
         # 3. LSTM
         # LSTM returns tuple: (output, (h_n, c_n))
         # output shape: [Batch, Time, Hidden_Size]
-        lstm_out = self.lstm(z) 
+        
         # lstm_out= output at each step (output, (hn,cn)) ## hn and cn are final output and cell state ( last long term memo)
 
-        # 4. CLASSIFICATION HEAD
-     
+ 
+
         
-        logits = self.fc(lstm_out)
+        #logits = self.fc(lstm_out)
         #print ( f'Logits {logits}') 
         ## tensor for the whole batch with shape [Batch, Time, Num_Classes] useful to see class confusion before softmax
         ## NB with this we can check for class confusion. #### FOCAL LOSS -> think about it 
@@ -145,9 +199,8 @@ class LSTMClassifier(lit.LightningModule):
         w_list = self.cfg.get("lstm_weigts", [1.0]*self.cfg.num_classes)
         
         # 2. Create Tensor AND move to device immediately
-        # If you forget .to(self.device), this will CRASH on GPU
         class_weights = torch.tensor(w_list, dtype=torch.float).to(self.device)
-# We give higher weights (2.0) to class 3 and 4 (Sitting/Standing)
+
 
     
 # Update loss
@@ -166,7 +219,54 @@ class LSTMClassifier(lit.LightningModule):
 
     def test_step(self, batch, batch_idx):
         x, y = batch
+     
+        
         logits = self(x) # Your forward pass
+        
+        # 1. Convert Logits to Probabilities
+        probs = F.softmax(logits, dim=1)
+        
+        # 2. Get the winner and its confidence score
+        max_probs, preds = torch.max(probs, dim=1)
+        
+        # 3. Define your "Watchlist" (Sitting=3, Standing=4)
+        watch_classes = [3, 4] 
+        
+        # 4. Iterate through the batch to find interesting cases
+        for i in range(len(y)):
+            true_label = y[i].item()
+            pred_label = preds[i].item()
+            confidence = max_probs[i].item()
+            
+            # --- FILTER CONDITIONS ---
+            # A. Is the model uncertain? (e.g., prediction confidence < 70%)
+            is_uncertain = confidence < 0.70
+            
+            # B. Is it one of our problem classes? (Truth OR Pred is Sitting/Standing)
+            is_problem_class = (true_label in watch_classes) or (pred_label in watch_classes)
+            
+            # C. Is it actually wrong?
+            is_wrong = true_label != pred_label
+            
+            # COMBINE: Show me cases that are WRONG involving SITTING/STANDING
+            # (You can change 'and' to 'or' depending on what you want to see)
+            if is_problem_class and is_wrong:
+                print(f"\n⚠️  MISCLASSIFICATION DETECTED (Batch {batch_idx}, Sample {i})")
+                print(f"   True: {self.class_names[true_label]}  -->  Pred: {self.class_names[pred_label]}")
+                print(f"   Confidence: {confidence:.4f} (Uncertainty: {1.0 - confidence:.4f})")
+                
+                # Print the "Hedge": The scores for the specific classes you care about
+                print("   --- Scores ---")
+                print(f"   Sitting (3):  Logit={logits[i][3]:.2f} | Prob={probs[i][3]:.4f}")
+                print(f"   Standing (4): Logit={logits[i][4]:.2f} | Prob={probs[i][4]:.4f}")
+                
+                # Check the Margin (Distance between the two)
+                margin = abs(probs[i][3] - probs[i][4])
+                print(f"   Margin: {margin:.4f}")
+                print("-" * 50)
+
+    
+        
         preds = torch.argmax(logits, dim=1)
         y_hat = self(x)
         loss = F.cross_entropy(y_hat, y)

@@ -107,15 +107,15 @@ def load_har(data_dir: Path, batch_size=32, val_split=0.2, num_workers=4):
     train_subset, val_subset = split_by_subject(full_train_dataset, val_split=val_split)
 
     # 3. Calculate Global Stats on TRAIN SUBSET ONLY
-    print("Calculating Global Normalization Stats...")
+   # print("Calculating Global Normalization Stats...")
     # We access the underlying data using the subset indices
     train_X_data = full_train_dataset.X[train_subset.indices]
-    
+    #
     mean, std = get_dataset_stats(train_X_data)
     print(f"Global Mean Shape: {mean.shape}") # Should be [1, 9, 1]
-
-    # 4. Apply Normalization to EVERYTHING
-    # Modifying the tensors in-place is efficient
+#
+    ## 4. Apply Normalization to EVERYTHING
+    ## Modifying the tensors in-place is efficient
     full_train_dataset.X = apply_normalization(full_train_dataset.X, mean, std)
     test_dataset.X       = apply_normalization(test_dataset.X, mean, std)
 
@@ -123,6 +123,94 @@ def load_har(data_dir: Path, batch_size=32, val_split=0.2, num_workers=4):
     train_loader = DataLoader(train_subset, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=True,persistent_workers=True)
     val_loader   = DataLoader(val_subset, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=True,persistent_workers=True)
     test_loader  = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=True,persistent_workers=True)
+
+    return train_loader, val_loader, test_loader
+
+######## HAR PRE PROC #############
+class HarFeatureDataset(Dataset):
+    def __init__(self, data_dir: Path, split: str = "train", transform=None):
+        self.data_dir = Path(data_dir)
+        self.split = split
+        self.transform = transform
+
+        self.X = self.load_features()
+        self.y = self.load_labels()
+        self.subject_ids = self.load_subjects() 
+
+        if self.transform:
+            self.X = self.transform(self.X)
+
+    def load_features(self):
+        feature_file = self.data_dir / f"UCI HAR Dataset/{self.split}/X_{self.split}.txt"        
+        X = np.loadtxt(feature_file)
+        return torch.tensor(X, dtype=torch.float32)
+
+    def load_labels(self):
+        labels_file = self.data_dir / f"UCI HAR Dataset/{self.split}/y_{self.split}.txt"
+        y = np.loadtxt(labels_file).astype(int).squeeze() - 1  
+        return torch.tensor(y, dtype=torch.long)
+
+    def load_subjects(self):
+        subjects_file = (
+            self.data_dir / f"UCI HAR Dataset/{self.split}/subject_{self.split}.txt"
+        )
+        subjects = np.loadtxt(subjects_file).astype(int).squeeze()
+        return torch.tensor(subjects, dtype=torch.long)
+
+    def __len__(self):
+        return len(self.y)
+
+    def __getitem__(self, idx):
+        return self.X[idx], self.y[idx]
+
+def load_har_features(
+    data_dir: Path, batch_size=32, val_split=0.2, num_workers=4, load_all=False
+):
+    
+    full_train_dataset = HarFeatureDataset(
+        data_dir, split="train"
+    )
+
+    val_size = int(val_split * len(full_train_dataset))
+    train_size = len(full_train_dataset) - val_size
+    
+    train_dataset, val_dataset = random_split(
+        full_train_dataset, [train_size, val_size]
+    )
+
+    test_dataset = HarFeatureDataset(
+        data_dir, split="test"
+    )
+
+    train_loader = DataLoader(
+        train_dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=num_workers,
+        pin_memory=True,
+        persistent_workers=True if num_workers > 0 else False,
+    )
+    
+    val_loader = DataLoader(
+        val_dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=num_workers,
+        pin_memory=True,
+        persistent_workers=True if num_workers > 0 else False,
+    )
+    
+    test_loader = DataLoader(
+        test_dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=num_workers,
+        pin_memory=True,
+        persistent_workers=True if num_workers > 0 else False,
+    )
+
+    if load_all:
+        return full_train_dataset, test_loader
 
     return train_loader, val_loader, test_loader
 

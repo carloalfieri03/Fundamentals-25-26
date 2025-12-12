@@ -1,8 +1,9 @@
 _target_: net.cnn.ConvBlock
 
 in_channels: 9
-out_channels: 128
-kernel_size: 3
+out_channels: 256
+pool_type: "max"
+kernel_size: 5
 pool_size: 2
 pool_stride: 2
 stride: 2

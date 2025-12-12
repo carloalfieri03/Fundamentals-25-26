@@ -9,7 +9,7 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, random_split
 import wandb
 from lightning.pytorch.loggers import WandbLogger
-from dataset.loaders import load_har, load_wisdm
+from dataset.loaders import load_har_features
 
 import lightning.pytorch.callbacks as cb 
 
@@ -24,7 +24,7 @@ def main(cfg: DictConfig):
 
     lit.seed_everything(cfg.seed) 
     wandb_logger = WandbLogger(**cfg.wandb)
-    train_loader, val_loader, test_loader = load_har(**cfg.dataset)
+    train_loader, val_loader, test_loader = load_har_features(**cfg.dataset)
     conv_ae = ConvAE(cfg.net)
 
     ae_checkpoint = ModelCheckpoint(

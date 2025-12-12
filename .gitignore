@@ -8,3 +8,9 @@ wheels/
 
 # Virtual environments
 .venv
+
+wandb/
+outputs/
+FDS_PROJECT/
+.DS_Store
+wandb/

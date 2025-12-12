@@ -3,12 +3,17 @@ import torch.nn as nn
 class ConvBlock(nn.Module):
     ### Same padding così piu facile
      
-    def __init__(self, in_channels, out_channels, kernel_size=3, pool_size=2, stride=2,pool_stride=2, **_):
+    def __init__(self, in_channels, out_channels, kernel_size=3,pool_type='avg', pool_size=2, stride=2,pool_stride=2, **_):
         super(ConvBlock, self).__init__()
         pad = (kernel_size-1) //2
         self.conv = nn.Conv1d(in_channels, out_channels, kernel_size=kernel_size, stride=stride, padding=pad)
-        self.relu = nn.ReLU() 
-        self.pool = nn.MaxPool1d(kernel_size=pool_size, stride=pool_stride) 
+        self.relu = nn.ReLU()
+        if pool_type == 'avg':
+            self.pool = nn.AvgPool1d(kernel_size=pool_size, stride=pool_stride)
+        elif pool_type == 'max':  
+            self.pool = nn.MaxPool1d(kernel_size=pool_size, stride=pool_stride)
+        else:
+            raise ValueError(f"Unknown pooling type: {pool_type}")
 
     
     def forward(self, x):
