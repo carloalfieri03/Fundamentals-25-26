@@ -3,7 +3,7 @@ project: FDS_PROJECT
 method: bayes
 
 metric:
-  name: test_acc
+  name: val_f1_macro  # <--- CHANGED: Forces model to care about Sitting/Standing
   goal: maximize
 
 parameters:  
@@ -12,28 +12,30 @@ parameters:
 
 #### ENCODER PART ########
   net.embed.kernel_size:
-   values: [3,5,7]
-   
+   values: [5,7,9,11]
+
+  net.embed.pool_size:
+   values: [2,4]
+
   net.embed.pool_type:
    values: ["avg","max"]
 
   net.embed.out_channels:
-    values: [32, 64, 128, 256]
+    values: [64,128, 256]
       
 #### LSTM PART ########
 
   net.rnn_block.hidden_size:
-      values: [64, 128, 256]
+      values: [64, 128]
 
-  net.rnn_block.num_layers:
-      values: [1, 2]
-
-  net.rnn_block.bidirectional:
-      values: [true, false]
+  net.rnn_block.dropout:
+   distribution: uniform
+   min: 0.3
+   max: 0.7
     
 early_terminate:
     type: hyperband
-    min_iter: 15      # Start evaluating performance after 10 epochs
+    min_iter: 10      # Start evaluating performance after 10 epochs
     eta: 2            # Prune the bottom 50% of runs every evaluation cycle
 
 

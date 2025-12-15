@@ -58,13 +58,13 @@ def main(cfg: DictConfig):
 
     lstm_model = LSTMClassifier(cfg.net, pretrained_encoder) 
     lstm_checkpoint = ModelCheckpoint(
-        monitor="val_acc",
-        mode="max",
+        monitor="val_loss",
+        mode="min",
         save_top_k=1,
         filename="LSTM-{epoch:02d}-{val_acc:.4f}"
     )
     patience_LSTM=cfg.callbacks.get("patience_LSTM", 20)
-    lstm_earlystop = EarlyStopping(monitor="val_acc", patience=patience_LSTM, mode="max")
+    lstm_earlystop = EarlyStopping(monitor="val_loss", patience=patience_LSTM, mode="min")
 
     lstm_trainer = Trainer(
         logger=wandb_logger,

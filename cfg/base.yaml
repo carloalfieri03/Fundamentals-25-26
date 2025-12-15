@@ -8,7 +8,8 @@ seed: 42
 net:
   num_classes: 6
   beta: 0.030589952331743383
-  lstm_weigts: [1.5, 1.5, 1.5, 0.6, 0.6, 1.5]
+  #lstm_weigts: [1.5, 1.5, 1.5, 0.6, 0.6, 1.5]
+  lstm_weigts: [1, 1, 1, 1, 1, 1]
 
 trainer:
   max_epochs: 95
@@ -21,10 +22,10 @@ callbacks:
 
 dataset:
   data_dir: "${oc.env:PWD}/data"
-  batch_size: 64
+  batch_size: 32
   val_split: 0.3
 
 wandb :
   project: "FDS_PROJECT"
   entity: "catairu-sapienza-universit-di-roma"
-  name: "paperf_provaCA"
+  name: "BNsoloencoder_provaCA"
