@@ -3,9 +3,8 @@ import torch.nn as nn
 
 class LSTMBlock(nn.Module):
     """
-    Blocco LSTM modulare. 
-    Progettato per prendere in input sequenze e restituire l'output 
-    dell'ultimo passo temporale, tipico per la classificazione/regressione.
+    LSTM Block. takes as input the encoder latent space dimension and processes it 
+    Outputs directly the final hidden state. Then used for classification
     """
     def __init__(self, input_size, hidden_size, num_layers=1, dropout=0.0, bidirectional=False):
         super(LSTMBlock, self).__init__()

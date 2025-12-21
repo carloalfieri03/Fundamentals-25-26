@@ -1,8 +1,6 @@
 _target_: net.rnn.LSTMBlock 
-
-input_size: 128
-
+#input_size: 128 (automatically calculated)
 hidden_size: 128  
-num_layers: 2     # Deep enough for patterns, shallow enough to converge
+num_layers: 2     
 dropout: 0.5974215509451941
 bidirectional: true

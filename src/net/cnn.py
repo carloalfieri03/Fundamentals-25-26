@@ -2,8 +2,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class ConvBlock(nn.Module):
-    ### Same padding così piu facile
-     
+    """
+    Convolution block. Same padding approach is used to make easier the dimension handling
+    All the other parameters are configurable from the conv.yaml file
+    """
+   
     def __init__(self, in_channels, out_channels, kernel_size=3,pool_type='avg', pool_size=2, stride=2,pool_stride=2, **_):
         super(ConvBlock, self).__init__()
         pad = (kernel_size-1) //2
@@ -26,16 +29,12 @@ class ConvBlock(nn.Module):
 
 class DeconvBlock1D(nn.Module):
     """
-    Deconvolution block for 1D signals:
-    ConvTranspose1d -> (BatchNorm1d optional) -> (ReLU optional)
+    One layer deconvolution Block. 
     """
-    def __init__( self, in_channels, out_channels, kernel_size=4, stride=4, padding=None, output_padding=0,target_length=None):
+    def __init__( self, in_channels, out_channels, kernel_size=4, stride=4, padding=None, output_padding=0):
         super().__init__()
         if padding is None:
-            padding = (kernel_size - 1) // 2
-
-        self.target_length = target_length
-        
+            padding = (kernel_size - 1) // 2        
         self.net=nn.ConvTranspose1d(
                 in_channels=in_channels,
                 out_channels=out_channels,
@@ -46,12 +45,5 @@ class DeconvBlock1D(nn.Module):
             )
 
     def forward(self, x):
-        # 1. Run the Deconvolution (Upsampling)
-        x = self.net(x)
-        
-        # 2. Check and fix the final size (Interpolation MUST happen last)
-        # This safety check is what prevents the sweep from crashing due to off-by-one errors.
-        if self.target_length is not None and x.shape[-1] != self.target_length:
-            x = F.interpolate(x, size=self.target_length, mode='linear', align_corners=False)
-            
+        x = self.net(x)      
         return x

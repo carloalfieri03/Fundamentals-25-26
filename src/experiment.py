@@ -33,7 +33,7 @@ def main(cfg: DictConfig):
         save_top_k=1,
         filename="convAE-{epoch:02d}-{val_loss:.4f}"
     )
-    patience_AE=cfg.callbacks.get("patience_AE", 20)
+    patience_AE=cfg.callbacks.get("patience_AE", 20) ## AE and LSTM have two different training phases and different patience values. This values set in base.yaml have been set via bayesian search
     ae_earlystop = EarlyStopping(monitor="val_loss", patience=patience_AE, mode="min")
 
     ae_trainer = Trainer(
@@ -46,7 +46,6 @@ def main(cfg: DictConfig):
 
     best_encoder_path = ae_checkpoint.best_model_path
     
-    # 1. FIX: Load the ConvAE object again to access its components
     conv_ae = ConvAE.load_from_checkpoint(best_encoder_path, cfg=cfg.net)
     pretrained_encoder = conv_ae.encoder
 
@@ -94,9 +93,6 @@ def get_num_params(module):
     """
     total_params = sum(p.numel() for p in module.parameters() )
     return total_params
-
-
-
 
 
 if __name__ == "__main__":

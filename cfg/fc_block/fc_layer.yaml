@@ -1,6 +1,6 @@
 
-_target_: net.mlp.ConfigurableMLP  # <--- Update path
-hidden_size: [512,256,128] # Corresponds to ConfigurableMLP argument
-output_size: 6          # Corresponds to ConfigurableMLP argument
-dropout: 0.5890797284648092           # Can be list [0.3, 0.3] or float 0.3
-activation_type: "GELU"  # Corresponds to ConfigurableMLP argument
+_target_: net.mlp.ConfigurableMLP  
+hidden_size: [512,256,128] 
+output_size: 6          
+dropout: 0.5890797284648092      
+activation_type: "GELU"  

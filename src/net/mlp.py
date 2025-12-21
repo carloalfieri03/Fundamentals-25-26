@@ -15,7 +15,7 @@ class ConfigurableMLP(nn.Module):
         # First Layer
         layers.extend([
             nn.LazyLinear(hidden_size[0]),
-            activation(),  # Instantiate the activation
+            activation(),  
             nn.Dropout(dropout_rates[0])
         ])
         
@@ -23,7 +23,7 @@ class ConfigurableMLP(nn.Module):
         for i in range(len(hidden_size) - 1):
             layers.extend([
                 nn.Linear(hidden_size[i], hidden_size[i+1]),
-                activation(), # Instantiate the activation
+                activation(), 
                 nn.Dropout(dropout_rates[i+1])
             ])
             

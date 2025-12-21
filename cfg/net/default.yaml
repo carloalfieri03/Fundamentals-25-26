@@ -3,6 +3,6 @@ defaults:
  - /unembed: lazy_linear
  - /optimizer: adam
  - /rnn_block: lstm
- #- /fc_block: fc_layer
+ #- /fc_block: fc_layer ## for the fc_layer trials
  - /decoder: deconv
 
